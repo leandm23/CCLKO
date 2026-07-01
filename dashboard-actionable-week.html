@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converge — Actionable This Week</title>
+  <style>
+    :root { --bg:#f4f6fa; --panel:#fff; --line:#e4e7ec; --txt:#162033; --muted:#667085; --shadow:0 6px 18px rgba(16,24,40,.08); --ok:#16a34a; --warn:#db2777; --high:#c92a2a; --mid:#7a3ec8; --low:#95c93d; }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,Arial,sans-serif}
+      .app{max-width:1420px;margin:16px auto;padding:0 14px 18px}
+    .header-row {display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; width: 100% }
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:0;width:100%;}
+    h1 { margin:0; font-size: 30px; }
+    .subtitle { color: var(--muted); margin: 2px 0 0; font-size: 14px; }
+    .filters-bar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; width:100%; }
+    .filters { display: contents; }
+    .filters1 { display: contents; }
+    .chip { background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; box-shadow: var(--shadow); }
+    .chip1 { background:#dbd9d9; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; box-shadow: var(--shadow); }
+    .tabs { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; margin-top:0; margin-left:auto; }
+    .tabs a{display:inline-block;margin:0;padding:9px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--txt);background:#fff;font-size:12px;font-weight:600;box-shadow: var(--shadow);}
+    .tabs a.active{background:#f40009;color:#fff}
+    .header-separator {height: 1px; background: #d0d5dd; width: 100% }
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px}
+    .kpi-v{font-size:30px;font-weight:700}.kpi-l{font-size:12px;color:var(--muted)}
+    .main{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+    .board{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .day{border:1px solid var(--line);border-radius:10px;padding:8px;background:#ffffff}
+    .stop{margin:6px 0;padding:6px 8px;border-radius:8px;color:#000000;font-size:12px}
+    .gold{background:var(--high);background-color: #f40009} .silver{background:var(--warn);background-color:#e6e6e6;color:#000000} .bronze{background:var(--mid);background-color: #8b1e1e; color:#fff} .others{background:var(--low);background-color: #111111; color:#fff}
+    .row{display:flex;justify-content:space-between;margin:8px 0;color:#475467;font-size:14px}
+    .pill{display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:700;color:#fff}
+    .p-plan{background:#334155}.p-live{background:#0369a1}.p-done{background:#15803d}
+    .bottom{margin-top:10px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px;min-width:1060px}th,td{border:1px solid var(--line);padding:8px;text-align:left;white-space:nowrap}th{background:#f8fafc}
+    @media (max-width:1240px){.main{grid-template-columns:1fr}.board{grid-template-columns:1fr 1fr}.kpis{grid-template-columns:1fr 1fr}}
+    @media (max-width:760px){.board{grid-template-columns:1fr}.kpis{grid-template-columns:1fr}}
+    @media (max-width:760px){.title-row{align-items:flex-start;flex-direction:column}.tabs{justify-content:flex-start}.filters-row{justify-content:flex-start}.filters{justify-content:flex-start}.filters1{justify-content:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header-row">
+     <div class="topbar">
+        <h1 style="margin:0">Converge</h1><img src="assets/coca-cola-light.svg">
+        <div class="tabs"><a href="index.html">Opportunity Map</a><a href="dashboard-funnel.html">Opportunity Funnel</a><a class="active" href="dashboard-actionable-week.html">Actionable by Week</a></div>
+      </div>
+      <div class="header-separator" aria-hidden="true"></div>
+      <div class="filters-bar" aria-label="Global filters">
+        <div class="filters">
+          <div class="chip">Country</div>
+          <div class="chip">City</div>
+          <div class="chip">District</div>
+          <div class="chip">Post Code</div>
+          <div class="chip">Platform</div>
+          <div class="chip">Category</div>
+          <div class="chip">Week</div>
+        </div>
+        <div class="filters1">
+          <div class="chip1">Population</div>
+          <div class="chip1">Income</div>
+          <div class="chip1">Upcoming Events</div>
+        </div>
+      </div>
+     </div>
+
+    <section class="kpis">
+      <article class="card"><div class="kpi-v">186</div><div class="kpi-l">Actionable outlets this week</div></article>
+      <article class="card"><div class="kpi-v">$148k</div><div class="kpi-l">Expected weekly uplift</div></article>
+      <article class="card"><div class="kpi-v">87%</div><div class="kpi-l">Capacity utilization</div></article>
+      <article class="card"><div class="kpi-v">91%</div><div class="kpi-l">Visit completion rate (7d)</div></article>
+    </section>
+
+    <section class="main">
+      <article class="card">
+        <h3 style="margin:0 0 8px">Daily Execution Board</h3> 
+        <div class="board">
+          <div class="day"><strong>Mon</strong><div class="stop gold">Rep A • 8 stops • $9.2k</div><div class="stop silver">Rep B • 7 stops • $7.8k</div><div class="stop bronze">Rep C • 6 stops • $5.1k</div></div>
+          <div class="day"><strong>Tue</strong><div class="stop gold">Rep A • 9 stops • $10.4k</div><div class="stop silver">Rep D • 7 stops • $7.2k</div><div class="stop others">Rep E • 6 stops • $3.9k</div></div>
+          <div class="day"><strong>Wed</strong><div class="stop gold">Rep B • 8 stops • $9.0k</div><div class="stop silver">Rep C • 7 stops • $6.8k</div><div class="stop bronze">Rep F • 6 stops • $5.0k</div></div>
+          <div class="day"><strong>Thu</strong><div class="stop gold">Rep D • 8 stops • $8.7k</div><div class="stop silver">Rep A • 7 stops • $7.5k</div><div class="stop others">Rep G • 5 stops • $3.4k</div></div>
+          <div class="day"><strong>Fri</strong><div class="stop gold">Rep E • 8 stops • $8.9k</div><div class="stop silver">Rep F • 7 stops • $6.9k</div><div class="stop bronze">Rep G • 6 stops • $4.8k</div></div>
+        </div>
+      </article>
+
+      <aside class="card">
+        <h3 style="margin:0 0 8px">Execution Alerts</h3>
+        <div class="row"><span>OOS-risk outlets in plan</span>23</div>
+        <div class="row"><span>Routes above drive-time threshold</span>4</div>
+        <div class="row"><span>Missing evidence from prior week</span>19</div>
+
+        <h3 style="margin:16px 0 8px">Field Productivity</h3>
+        <div class="row"><span>Avg stops / rep / day</span>7.2</div>
+        <div class="row"><span>Uplift per visit</span>$796</div>
+
+        <h3 style="margin:16px 0 8px">Distribution Indicators</h3>
+        <div class="row"><span>Numeric distribution (ND)</span>57%</div>
+        <div class="row"><span>Weighted distribution (ACV)</span>71%</div>
+      </aside>
+    </section>
+
+    <section class="card bottom">
+      <h3 style="margin:0 0 8px">Weekly Field Execution List</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Outlet</th><th>Rep owner</th><th>Planned slot</th><th>Opportunity</th><th>Task type</th><th>Expected uplift</th><th>Confidence</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Kin Yum</td><td>Rep A</td><td>Mon 10:30</td><td>Golden</td><td>Upsell combo + add-on</td><td>$2.4k</td><td>High</td><td><span class="pill p-plan">Planned</span></td></tr>
+            <tr><td>La Coppola</td><td>Rep B</td><td>Tue 14:00</td><td>Silver</td><td>Menu placement + upsell</td><td>$1.6k</td><td>High</td><td><span class="pill p-live">In Progress</span></td></tr>
+            <tr><td>Bornga Korean</td><td>Rep D</td><td>Wed 12:15</td><td>Bronze</td><td>Availability check (OOS risk)</td><td>$0.9k</td><td>Medium</td><td><span class="pill p-done">Done</span></td></tr>
+            <tr><td>Harris Farm</td><td>Rep E</td><td>Thu 09:45</td><td>Golden</td><td>Expansion pitch</td><td>$3.1k</td><td>Medium</td><td><span class="pill p-plan">Planned</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

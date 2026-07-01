@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converge</title>
+  <style>
+    :root {
+      --bg: #f4f6fa;
+      --panel: #ffffff;
+      --line: #ead6d3;
+      --txt: #111111;
+      --muted: #6b6b6b;
+      --others: #111111;
+      --bronze: #8b1e1e;
+      --silver: #e6e6e6;
+      --golden: #f40009;
+      --shadow: 0 6px 18px rgba(16, 24, 40, .08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--txt); font-family: Inter, Arial, sans-serif; }
+    .app{max-width:1420px;margin:16px auto;padding:0 14px 18px}
+    .header-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:0;width:100%;}
+    h1 { margin:0; font-size: 30px; }
+    .subtitle { color: var(--muted); margin: 2px 0 0; font-size: 14px; }
+    .filters-bar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; width:100%; }
+    .filters { display: contents; }
+    .filters1 { display: contents; }
+    .chip { background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; box-shadow: var(--shadow); }
+    .chip1 { background:#dbd9d9; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; box-shadow: var(--shadow); }
+    .tabs { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; margin-top:0; margin-left:auto; }
+    .tabs a{display:inline-block;margin:0;padding:9px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--txt);background:#fff;font-size:12px;font-weight:600;box-shadow: var(--shadow);}
+    .tabs a.active{background:#f40009;color:#fff}
+    .header-separator {height: 1px; background: #d0d5dd; width: 100% }
+
+
+    .layout { display:grid; grid-template-columns: minmax(0, 1.9fr) minmax(300px, 1fr); gap:12px; align-items:start; min-width:0; }
+    .card { background: var(--panel); border:1px solid var(--line); border-radius:14px; box-shadow: var(--shadow); }
+
+    .map-card { padding: 10px; min-width:0; }
+    .map-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+    .map-tools { display:flex; flex-wrap:wrap; gap:8px; }
+    .legend-chip { border:1px solid var(--line); border-radius:999px; padding:5px 10px; font-size:12px; background:#fff; }
+
+    .map-wrap { position:relative; border:1px solid var(--line); border-radius:12px; overflow:hidden; min-height:560px; }
+    .map-wrap img { width:100%; height:560px; object-fit:cover; display:block; }
+
+    .dot { position:absolute; border-radius:999px; border:1px solid rgba(0,0,0,.92); box-shadow:0 6px 14px rgba(0,0,0,.2); opacity:.92; }
+    .dot.is-selected { outline:3px solid rgba(244,0,9,.28); outline-offset:3px; z-index:5; }
+    .outlet-popover { position:absolute; left:35px; top:-90px; width:315px; padding:12px; border:1px solid var(--line); border-left:4px solid var(--golden); border-radius:12px; background:#fff; box-shadow:0 14px 34px rgba(17,17,17,.18); color:var(--txt); font-size:12px; line-height:1.35; z-index:10; }
+    .outlet-popover h4 { margin:0 0 8px; font-size:14px; }
+    .outlet-popover .match-row { display:flex; justify-content:space-between; gap:10px; margin:5px 0; }
+    .outlet-popover .match-row span:first-child { color:var(--muted); }
+    .outlet-popover a { color:var(--golden); font-weight:700; text-decoration:none; }
+    .outlet-popover ul { margin:8px 0 0; padding-left:16px; }
+    .others { background: var(--others); }
+    .bronze { background: var(--bronze); }
+    .silver { background: var(--silver); }
+    .golden { background: var(--golden); }
+    .d1{width:14px;height:14px;left:22%;top:58%}.d2{width:22px;height:22px;left:28%;top:45%}
+    .d3{width:30px;height:30px;left:34%;top:60%}.d4{width:18px;height:18px;left:40%;top:55%}
+    .d5{width:40px;height:40px;left:48%;top:26%}.d6{width:26px;height:26px;left:56%;top:35%}
+    .d7{width:20px;height:20px;left:62%;top:70%}.d8{width:30px;height:30px;left:60%;top:30%}
+    .d9{width:16px;height:16px;left:76%;top:75%}.d10{width:40px;height:40px;left:82%;top:47%}
+    .d11{width:14px;height:14px;left:40%;top:66%}.d12{width:40px;height:40px;left:56%;top:75%}
+    .d13{width:14px;height:14px;left:22%;top:18%}.d14{width:14px;height:14px;left:40%;top:15%}
+
+
+    .side { padding: 10px; display:grid; gap:10px; align-content:start; width:100%; min-width:0; justify-self:stretch; overflow:hidden; }
+    .panel { padding: 12px; border:1px solid var(--line); border-radius:10px; background:#fff; max-width:100%; overflow:hidden; }
+    .panel h3 { margin:0 0 8px; font-size:16px; }
+    .row { display:flex; justify-content:space-between; margin:8px 0; color:#475467; font-size:14px; }
+    .kpi-number { font-size:30px; font-weight:700; margin:6px 0 2px; }
+    .kpi-label { color: var(--muted); font-size:12px; }
+
+    .summary-metrics { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap:8px; }
+    .metric-card { border:1px solid var(--line); border-radius:10px; padding:10px; background:#f8fafc; }
+    .metric-value { font-size:34px; font-weight:700; line-height:1; }
+    .metric-name { margin-top:6px; color:var(--muted); font-size:12px; }
+
+    .mini-table { width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed; }
+    .mini-table th, .mini-table td { border:1px solid var(--line); padding:6px 8px; text-align:left; overflow:hidden; text-overflow:ellipsis; }
+    .mini-table th { background:#fff0f0; }
+
+    .table-wrap { margin-top:12px; padding:10px; overflow:auto; height: 600px;}
+    table { width:100%; border-collapse: collapse; font-size:13px; min-width: 1400px; }
+    th, td { border:1px solid var(--line); padding:8px; text-align:left; white-space:nowrap; }
+    th { background:#f8fafc; position:sticky; top:0; z-index:1; }
+    .tag { display:inline-block; border-radius:999px; padding:2px 8px; font-size:11px; color:#fff; }
+    .t-others { background: var(--others); }
+    .t-bronze { background: var(--bronze); }
+    .t-silver { background: var(--silver); color:#223; }
+    .t-golden { background: var(--golden); color:#223; }
+
+    @media (max-width: 1240px) {
+      .layout { grid-template-columns: 1fr; }
+      .header-row { grid-template-columns: 1fr; }
+      .topbar { flex-direction:row; align-items:center; }
+      .tabs { justify-content:flex-end; }
+      .filters, .filters1 { grid-column:1; grid-row:auto; justify-content:flex-start; }
+      .map-wrap, .map-wrap img { min-height:440px; height:440px; }
+      .summary-metrics { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { flex-direction:column; align-items:flex-start; }
+      .tabs { justify-content:flex-start; margin-left:0; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header-row">
+     <div class="topbar">
+        <h1 style="margin:0">Converge</h1><img src="assets/coca-cola-light.svg">
+        <div class="tabs"><a class="active" href="index.html">Opportunity Map</a><a href="dashboard-funnel.html">Opportunity Funnel</a><a href="dashboard-actionable-week.html">Actionable by Week</a></div>
+      </div>
+      <div class="header-separator" aria-hidden="true"></div>
+      <div class="filters-bar" aria-label="Global filters">
+        <div class="filters">
+          <div class="chip">Country</div>
+          <div class="chip">City</div>
+          <div class="chip">District</div>
+          <div class="chip">Post Code</div>
+          <div class="chip">Platform</div>
+          <div class="chip">Category</div>
+          <div class="chip">Mar - 2026</div>
+        </div>
+        <div class="filters1">
+          <div class="chip1">Population</div>
+          <div class="chip1">Income</div>
+          <div class="chip1">Upcoming Events</div>
+        </div>
+      </div>
+     </div>
+
+    <section class="layout"> 
+       <article class="card map-card">
+        <div class="map-header">
+          <strong>Outlet opportunity map</strong>
+          <div class="map-tools">
+            <div class="legend-chip"><span style="color:var(--others)">●</span> Others</div>
+            <div class="legend-chip"><span style="color:var(--bronze)">●</span> Bronze</div>
+            <div class="legend-chip"><span style="color:var(--silver)">●</span> Silver</div>
+            <div class="legend-chip"><span style="color:var(--golden)">●</span> Golden</div>
+            <div class="legend-chip">Size = opportunity</div>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <img src="assets/sydney1.jpg" alt="Sydney map" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback='assets/sydney-map-demo.svg';}else{this.src='assets/sydney-map-demo.svg';}" data-fallback="assets/sydney.jpg" />
+          <div class="dot others d1" title="Others"></div><div class="dot bronze d2" title="Bronze"></div>
+          <div class="dot silver d3" title="Silver"></div><div class="dot others d4" title="Others"></div>
+          <div class="dot golden d5" title="Golden"></div><div class="dot bronze d6" title="Bronze"></div>
+          <div class="dot others d7" title="Others"></div><div class="dot silver d8 is-selected" title="Silver">
+            <div class="outlet-popover" role="dialog" aria-label="Selected outlet social intelligence">
+              <h4>Kin Yum — Social intelligence</h4>
+              <div class="match-row"><span>Outlet/page name match</span><strong>92%</strong></div>
+              <div class="match-row"><span>Geo / postcode match</span><strong>Sydney 2000</strong></div>
+              <div class="match-row"><span>Business profiles</span><a href="#">Facebook / Instagram</a></div>
+              <ul>
+                <li>14 mentions with Coke / competitor terms</li>
+                <li>6 tagged-location posts in the last 30 days</li>
+                <li>Menu references: Coke Zero, Fanta, combo drinks</li>
+                <li>Local audience engagement: 3.8% avg interaction</li>
+              </ul>
+            </div>
+          </div>
+          <div class="dot others d9" title="Others"></div><div class="dot golden d10" title="Golden"></div>
+        </div>
+      </article>
+
+      <aside class="card side">
+        <section class="panel">
+          <h3>De-duplicated Outlets</h3>
+          <div class="summary-metrics">
+            <div class="metric-card">
+              <div class="metric-value">14,794</div>
+              <div class="metric-name">FSA Upsell</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">2,627</div>
+              <div class="metric-name">Expansion FSA</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">35,267</div>
+              <div class="metric-name">Expansion GMA</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3>Top Attack Areas</h3>
+          <div class="row"><span>Surry Hills</span><span>89</span></div>
+          <div class="row"><span>Parramatta</span><span>84</span></div>
+          <div class="row"><span>Newtown</span><span>82</span></div>
+        </section>
+
+        <section class="panel">
+          <h3>Is Own Outlet</h3>
+          <div class="row"><span>Yes</span><span>68.0%</span></div>
+          <div class="row"><span>No</span><span>32.0%</span></div>
+        </section>
+
+        <section class="panel">
+          <h3>Opportunity Level Distribution</h3>
+          <div class="row"><span>Golden</span><span>18.0%</span></div>
+          <div class="row"><span>Silver</span><span>22.0%</span></div>
+          <div class="row"><span>Bronze</span><span>27.0%</span></div>
+          <div class="row"><span>Others</span><span>33.0%</span></div>
+        </section>
+      </aside>
+    </section>
+
+    <section class="card table-wrap">
+	 <div><h3 align="middle">Raw Data</span></h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Ranking</th><th>Output Type</th><th>Name</th><th>City</th><th>Address</th>
+            <th>Cuisine Types</th><th>Primary Type</th><th>Score</th><th>Brands Recommended</th>
+            <th>Subbrands Recommended</th><th>Opportunity Level</th><th>Google Maps URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Expansion GM</td><td>Coles Central</td><td>Melbourne</td><td>Flinders Street</td><td>-</td><td>supermarket</td><td>1</td><td>Simply Spiked</td><td>Coca-Cola Lig</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Coles+Central+Melbourne</td></tr>
+          <tr><td>1</td><td>Upsell</td><td>Kin Yum</td><td>Sydney</td><td>Kiosk 2 Hordern</td><td>Thai</td><td>-</td><td>1</td><td>Fanta</td><td>Diet Coke</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Kin+Yum+Sydney</td></tr>
+          <tr><td>2</td><td>Expansion FSA</td><td>Hakata Gensuke</td><td>Sydney</td><td>Lot 12A, Regent Place</td><td>Japanese</td><td>restaurant</td><td>1</td><td>Coca-Cola</td><td>Coca-Cola Zero</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Hakata+Gensuke+Sydney</td></tr>
+          <tr><td>3</td><td>Upsell</td><td>La Coppola</td><td>Sydney</td><td>152 Redfern St</td><td>Italian</td><td>restaurant</td><td>1</td><td>Kirks</td><td>Coca-Cola Lig</td><td><span class="tag t-silver">Silver</span></td><td>https://www.google.com/maps/search/?api=1&query=La+Coppola+Sydney</td></tr>
+          <tr><td>4</td><td>Expansion GM</td><td>Bornga Korean</td><td>Sydney</td><td>78 Harbour St</td><td>Korean</td><td>restaurant</td><td>1</td><td>Sprite</td><td>Fanta Fruit</td><td><span class="tag t-bronze">Bronze</span></td><td>https://www.google.com/maps/search/?api=1&query=Bornga+Korean+Sydney</td></tr>
+          <tr><td>5</td><td>Expansion FSA</td><td>harrisfarmma</td><td>Brisbane</td><td>West Village</td><td>-</td><td>grocery_store</td><td>1</td><td>Coca-Cola</td><td>Coca-Cola Ori</td><td><span class="tag t-others">Others</span></td><td>https://www.google.com/maps/search/?api=1&query=harrisfarmmarkets+Brisbane</td></tr>
+          <tr><td>1</td><td>Expansion GM</td><td>Coles Central</td><td>Melbourne</td><td>Flinders Street</td><td>-</td><td>supermarket</td><td>1</td><td>Simply Spiked</td><td>Coca-Cola Lig</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Coles+Central+Melbourne</td></tr>
+          <tr><td>1</td><td>Upsell</td><td>Kin Yum</td><td>Sydney</td><td>Kiosk 2 Hordern</td><td>Thai</td><td>-</td><td>1</td><td>Fanta</td><td>Diet Coke</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Kin+Yum+Sydney</td></tr>
+          <tr><td>2</td><td>Expansion FSA</td><td>Hakata Gensuke</td><td>Sydney</td><td>Lot 12A, Regent Place</td><td>Japanese</td><td>restaurant</td><td>1</td><td>Coca-Cola</td><td>Coca-Cola Zero</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Hakata+Gensuke+Sydney</td></tr>
+          <tr><td>3</td><td>Upsell</td><td>La Coppola</td><td>Sydney</td><td>152 Redfern St</td><td>Italian</td><td>restaurant</td><td>1</td><td>Kirks</td><td>Coca-Cola Lig</td><td><span class="tag t-silver">Silver</span></td><td>https://www.google.com/maps/search/?api=1&query=La+Coppola+Sydney</td></tr>
+          <tr><td>4</td><td>Expansion GM</td><td>Bornga Korean</td><td>Sydney</td><td>78 Harbour St</td><td>Korean</td><td>restaurant</td><td>1</td><td>Sprite</td><td>Fanta Fruit</td><td><span class="tag t-bronze">Bronze</span></td><td>https://www.google.com/maps/search/?api=1&query=Bornga+Korean+Sydney</td></tr>
+          <tr><td>5</td><td>Expansion FSA</td><td>harrisfarmma</td><td>Brisbane</td><td>West Village</td><td>-</td><td>grocery_store</td><td>1</td><td>Coca-Cola</td><td>Coca-Cola Ori</td><td><span class="tag t-others">Others</span></td><td>https://www.google.com/maps/search/?api=1&query=harrisfarmmarkets+Brisbane</td></tr>
+          <tr><td>3</td><td>Upsell</td><td>La Coppola</td><td>Sydney</td><td>152 Redfern St</td><td>Italian</td><td>restaurant</td><td>1</td><td>Kirks</td><td>Coca-Cola Lig</td><td><span class="tag t-silver">Silver</span></td><td>https://www.google.com/maps/search/?api=1&query=La+Coppola+Sydney</td></tr>
+          <tr><td>4</td><td>Expansion GM</td><td>Bornga Korean</td><td>Sydney</td><td>78 Harbour St</td><td>Korean</td><td>restaurant</td><td>1</td><td>Sprite</td><td>Fanta Fruit</td><td><span class="tag t-bronze">Bronze</span></td><td>https://www.google.com/maps/search/?api=1&query=Bornga+Korean+Sydney</td></tr>
+          <tr><td>5</td><td>Expansion FSA</td><td>harrisfarmma</td><td>Brisbane</td><td>West Village</td><td>-</td><td>grocery_store</td><td>1</td><td>Coca-Cola</td><td>Coca-Cola Ori</td><td><span class="tag t-others">Others</span></td><td>https://www.google.com/maps/search/?api=1&query=harrisfarmmarkets+Brisbane</td></tr>
+          <tr><td>1</td><td>Expansion GM</td><td>Coles Central</td><td>Melbourne</td><td>Flinders Street</td><td>-</td><td>supermarket</td><td>1</td><td>Simply Spiked</td><td>Coca-Cola Lig</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Coles+Central+Melbourne</td></tr>
+          <tr><td>1</td><td>Upsell</td><td>Kin Yum</td><td>Sydney</td><td>Kiosk 2 Hordern</td><td>Thai</td><td>-</td><td>1</td><td>Fanta</td><td>Diet Coke</td><td><span class="tag t-golden">Golden</span></td><td>https://www.google.com/maps/search/?api=1&query=Kin+Yum+Sydney</td></tr>
+
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

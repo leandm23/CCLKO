@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converge — Opportunity Funnel</title>
+  <style>
+   :root {
+      --bg: #f4f6fa;
+      --panel: #ffffff;
+      --line: #ead6d3;
+      --txt: #111111;
+      --muted: #6b6b6b;
+      --others: #111111;
+      --bronze: #8b1e1e;
+      --silver: #e6e6e6;
+      --golden: #f40009;
+      --shadow: 0 6px 18px rgba(16, 24, 40, .08);
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--txt);font-family:Inter,Arial,sans-serif}
+    .app{max-width:1420px;margin:16px auto;padding:0 14px 18px}
+    .header-row {display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; width: 100% }
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:0;width:100%;}
+    h1 { margin:0; font-size: 30px; }
+    .subtitle { color: var(--muted); margin: 2px 0 0; font-size: 14px; }
+    .filters-bar { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:8px; width:100%; }
+    .filters { display: contents; }
+    .filters1 { display: contents; }
+    .chip { background:#fff; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; box-shadow: var(--shadow); }
+    .chip1 { background:#dbd9d9; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; box-shadow: var(--shadow); }
+    .tabs { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; margin-top:0; margin-left:auto; }
+    .tabs a{display:inline-block;margin:0;padding:9px 14px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--txt);background:#fff;font-size:12px;font-weight:600;box-shadow: var(--shadow);}
+    .tabs a.active{background:#f40009;color:#fff}
+    .header-separator {height: 1px; background: #d0d5dd; width: 100% }
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px}
+    .kpi-v{font-size:30px;font-weight:700}.kpi-l{font-size:12px;color:var(--muted)}
+    .main{display:grid;grid-template-columns:2fr 1fr;gap:10px}.funnel .stage{margin:10px 0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+    .bar{padding:10px;color:#fff;font-weight:500}.s1{width:100%;background:#C30508}.s2{width:88%;background:#EF8065}.s3{width:66%;background:#D4080B}.s4{width:48%;background:#6D0B0B}.s5{width:34%;background:#000000}
+    .row{display:flex;justify-content:space-between;margin:8px 0;color:#475467;font-size:14px}
+    .bottom{margin-top:10px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:920px}th,td{border:1px solid var(--line);padding:8px;text-align:left;white-space:nowrap}th{background:#f8fafc}
+    @media (max-width:760px){.title-row{align-items:flex-start;flex-direction:column}.tabs{justify-content:flex-start}.filters-row{justify-content:flex-start}.filters{justify-content:flex-start}.filters1{justify-content:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header-row">
+     <div class="topbar">
+        <h1 style="margin:0">Converge</h1><img src="assets/coca-cola-light.svg">
+        <div class="tabs"><a href="index.html">Opportunity Map</a><a class="active" href="dashboard-funnel.html">Opportunity Funnel</a><a href="dashboard-actionable-week.html">Actionable by Week</a></div>
+      </div>
+      <div class="header-separator" aria-hidden="true"></div>
+      <div class="filters-bar" aria-label="Global filters">
+        <div class="filters">
+          <div class="chip">Country</div>
+          <div class="chip">City</div>
+          <div class="chip">District</div>
+          <div class="chip">Post Code</div>
+          <div class="chip">Platform</div>
+          <div class="chip">Category</div>
+          <div class="chip">Mar - 2026</div>
+        </div>
+        <div class="filters1">
+          <div class="chip1">Population</div>
+          <div class="chip1">Income</div>
+          <div class="chip1">Upcoming Events</div>
+        </div>
+      </div>
+     </div>
+
+    <section class="kpis">
+      <article class="card"><div class="kpi-v">1,240</div><div class="kpi-l">Actionable outlets</div></article>
+      <article class="card"><div class="kpi-v">$482k</div><div class="kpi-l">Projected weekly uplift</div></article>
+      <article class="card"><div class="kpi-v">74</div><div class="kpi-l">Average WOS</div></article>
+      <article class="card"><div class="kpi-v">62%</div><div class="kpi-l">High-confidence share</div></article>
+    </section>
+
+    <section class="main">
+      <article class="card funnel">
+        <h3 style="margin:0 0 8px">Opportunity Funnel</h3>
+        <div class="stage"><div class="bar s1">Detected outlets — 12,480</div></div>
+        <div class="stage"><div class="bar s2">Deduplicated outlets — 9,320</div></div>
+        <div class="stage"><div class="bar s3">Qualified outlets — 6,140</div></div>
+        <div class="stage"><div class="bar s4">High opportunity outlets — 3,120</div></div>
+        <div class="stage"><div class="bar s5">Actionable this week — 1,240</div></div>
+      </article>
+      <aside class="card">
+        <h3 style="margin:0 0 8px">Bottlenecks</h3>
+        <div class="row"><span>Low data completeness</span><span>29%</span></div>
+        <div class="row"><span>Missing assortment signals</span><span>24%</span></div>
+        <div class="row"><span>Low short-term traffic</span><span>17%</span></div>
+        <h3 style="margin:16px 0 8px">Expected Gain by Channel</h3>
+        <div class="row"><span>HORECA</span><span>$198k</span></div>
+        <div class="row"><span>Convenience</span><span>$152k</span></div>
+        <div class="row"><span>Gyms</span><span>$74k</span></div>
+        <div class="row"><span>Gas stations</span><span>$58k</span></div>
+      </aside>
+    </section>
+
+    <section class="card bottom">
+      <h3 style="margin:0 0 8px">Impact vs Effort Shortlist</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Outlet</th><th>City</th><th>Opportunity</th><th>Effort</th><th>Expected uplift</th><th>Recommended action</th></tr></thead>
+          <tbody>
+            <tr><td>Kin Yum</td><td>Sydney</td><td>Golden</td><td>Low</td><td>$12.4k</td><td>Launch combo + add-on</td></tr>
+            <tr><td>La Coppola</td><td>Sydney</td><td>Silver</td><td>Medium</td><td>$8.1k</td><td>Upsell own-brand beverage</td></tr>
+            <tr><td>Bornga Korean</td><td>Sydney</td><td>Bronze</td><td>Low</td><td>$4.2k</td><td>Pilot weekend activation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
