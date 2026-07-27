@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,66 +109,66 @@
   </div>
 
   <div class="metrics">
-    <div class="metric"><p>Registros CRM</p><p>1,240</p></div>
-    <div class="metric"><p>Match por llave</p><p style="color:var(--text-success);">812</p></div>
-    <div class="metric"><p>Match por similaridad</p><p style="color:var(--text-warning);">271</p></div>
-    <div class="metric"><p>Necesitan revisión</p><p style="color:var(--text-warning);">157</p></div>
+    <div class="metric"><p>CRM records</p><p>1,240</p></div>
+    <div class="metric"><p>Matched by key</p><p style="color:var(--text-success);">812</p></div>
+    <div class="metric"><p>Matched by similarity</p><p style="color:var(--text-warning);">271</p></div>
+    <div class="metric"><p>Needs review</p><p style="color:var(--text-warning);">157</p></div>
   </div>
 
   <div class="fork-row">
     <div class="fork-card" style="background:var(--bg-success);">
-      <div class="head"><i class="ti ti-key" style="font-size:18px;color:var(--text-success);"></i><span style="color:var(--text-success);">Identificador encontrado</span></div>
+      <div class="head"><i class="ti ti-key" style="font-size:18px;color:var(--text-success);"></i><span style="color:var(--text-success);">Identifier found</span></div>
       <p class="sub" style="color:var(--text-success);">Store ID, POS code, GLN</p>
     </div>
     <div class="fork-arrow"><i class="ti ti-arrow-right" style="font-size:18px;"></i></div>
     <div class="fork-card" style="background:var(--bg-success);">
-      <div class="head"><i class="ti ti-check" style="font-size:18px;color:var(--text-success);"></i><span style="color:var(--text-success);">Match determinístico</span></div>
-      <p class="sub" style="color:var(--text-success);">Auto-etiquetado, confianza alta</p>
+      <div class="head"><i class="ti ti-check" style="font-size:18px;color:var(--text-success);"></i><span style="color:var(--text-success);">Deterministic match</span></div>
+      <p class="sub" style="color:var(--text-success);">Auto-tagged, high trust</p>
     </div>
   </div>
 
   <div class="fork-row">
     <div class="fork-card" style="background:var(--bg-warning);">
-      <div class="head"><i class="ti ti-help-hexagon" style="font-size:18px;color:var(--text-warning);"></i><span style="color:var(--text-warning);">Sin llave confiable</span></div>
-      <p class="sub" style="color:var(--text-warning);">Nombre, dirección, geo, teléfono</p>
+      <div class="head"><i class="ti ti-help-hexagon" style="font-size:18px;color:var(--text-warning);"></i><span style="color:var(--text-warning);">No reliable key</span></div>
+      <p class="sub" style="color:var(--text-warning);">Name, address, geo, phone</p>
     </div>
     <div class="fork-arrow"><i class="ti ti-arrow-right" style="font-size:18px;"></i></div>
     <div class="fork-card" style="background:var(--bg-warning);">
-      <div class="head"><i class="ti ti-adjustments" style="font-size:18px;color:var(--text-warning);"></i><span style="color:var(--text-warning);">Modelo de similaridad</span></div>
-      <p class="sub" style="color:var(--text-warning);">Con score, en cola de revisión</p>
+      <div class="head"><i class="ti ti-adjustments" style="font-size:18px;color:var(--text-warning);"></i><span style="color:var(--text-warning);">Similarity model</span></div>
+      <p class="sub" style="color:var(--text-warning);">Scored, queued for review</p>
     </div>
   </div>
 
   <div class="steps">
-    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Subir CRM</span>
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Upload CRM</span>
     <span class="sepdash">—</span>
-    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Mapear campos</span>
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Map fields</span>
     <span class="sepdash">—</span>
-    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Detectar identificadores</span>
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Detect identifiers</span>
     <span class="sepdash">—</span>
     <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Match</span>
     <span class="sepdash">—</span>
-    <span class="step active"><i class="ti ti-list-check" style="font-size:15px;"></i>Revisión</span>
+    <span class="step active"><i class="ti ti-list-check" style="font-size:15px;"></i>Review</span>
   </div>
 
   <div class="filters" id="filters">
-    <button data-cat="all" class="filt active">Todos</button>
-    <button data-cat="key" class="filt">Match por llave</button>
-    <button data-cat="similarity" class="filt">Match por similaridad</button>
-    <button data-cat="new" class="filt">Nuevo outlet</button>
-    <button data-cat="declined" class="filt">Descartado</button>
+    <button data-cat="all" class="filt active">All</button>
+    <button data-cat="key" class="filt">Key match</button>
+    <button data-cat="similarity" class="filt">Similarity match</button>
+    <button data-cat="new" class="filt">New outlet</button>
+    <button data-cat="declined" class="filt">Declined</button>
   </div>
 
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>Registro CRM</th>
-          <th>Mejor match encontrado</th>
-          <th>Método</th>
-          <th>Confianza</th>
-          <th>Estado</th>
-          <th>Acciones</th>
+          <th>Your CRM record</th>
+          <th>Best match found</th>
+          <th>Method</th>
+          <th>Confidence</th>
+          <th>Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody id="rows"></tbody>
@@ -179,16 +179,16 @@
 
 <script>
 var rows = [
-  {crm:"Golden Wok Kitchen",crmAddr:"Coolsingel 40, Rotterdam · POS-88213",match:"Golden Wok Kitchen Rotterdam",matchAddr:"Coolsingel 40, Rotterdam",cat:"key",method:"Match por llave",conf:null,status:"Auto-matched",statusRole:"success"},
-  {crm:"Casa Bella Trattoria",crmAddr:"Oudegracht 112, Utrecht",match:"Bella's Trattoria Centrum",matchAddr:"Oudegracht 108, Utrecht",cat:"similarity",method:"Similaridad",conf:71,status:"Necesita revisión",statusRole:"warning"},
-  {crm:"Burger Union #204",crmAddr:"Damrak 22, Amsterdam",match:"Burger Union Damrak",matchAddr:"Damrak 24, Amsterdam",cat:"similarity",method:"Similaridad",conf:54,status:"Necesita revisión",statusRole:"warning"},
-  {crm:"Ocean Grill Bar",crmAddr:"Nieuwendijk 90, Amsterdam",match:"Ocean Grill and Bar",matchAddr:"Nieuwendijk 88, Amsterdam",cat:"similarity",method:"Similaridad",conf:88,status:"Matched",statusRole:"success"},
-  {crm:"Spice Route Express",crmAddr:"Grote Markt 5, The Hague",match:"Sin candidato sobre el umbral",matchAddr:"—",cat:"new",method:"—",conf:null,status:"Nuevo outlet",statusRole:"accent"},
-  {crm:"Corner Deli 12",crmAddr:"Leidsestraat 30, Amsterdam",match:"Corner Bakery Leidseplein",matchAddr:"Leidseplein 2, Amsterdam",cat:"declined",method:"Similaridad",conf:33,status:"Descartado",statusRole:"danger"}
+  {crm:"Golden Wok Kitchen",crmAddr:"Coolsingel 40, Rotterdam · POS-88213",match:"Golden Wok Kitchen Rotterdam",matchAddr:"Coolsingel 40, Rotterdam",cat:"key",method:"Key match",conf:null,status:"Auto-matched",statusRole:"success"},
+  {crm:"Casa Bella Trattoria",crmAddr:"Oudegracht 112, Utrecht",match:"Bella's Trattoria Centrum",matchAddr:"Oudegracht 108, Utrecht",cat:"similarity",method:"Similarity",conf:71,status:"Needs review",statusRole:"warning"},
+  {crm:"Burger Union #204",crmAddr:"Damrak 22, Amsterdam",match:"Burger Union Damrak",matchAddr:"Damrak 24, Amsterdam",cat:"similarity",method:"Similarity",conf:54,status:"Needs review",statusRole:"warning"},
+  {crm:"Ocean Grill Bar",crmAddr:"Nieuwendijk 90, Amsterdam",match:"Ocean Grill and Bar",matchAddr:"Nieuwendijk 88, Amsterdam",cat:"similarity",method:"Similarity",conf:88,status:"Matched",statusRole:"success"},
+  {crm:"Spice Route Express",crmAddr:"Grote Markt 5, The Hague",match:"No candidate above threshold",matchAddr:"—",cat:"new",method:"—",conf:null,status:"New outlet",statusRole:"accent"},
+  {crm:"Corner Deli 12",crmAddr:"Leidsestraat 30, Amsterdam",match:"Corner Bakery Leidseplein",matchAddr:"Leidseplein 2, Amsterdam",cat:"declined",method:"Similarity",conf:33,status:"Declined",statusRole:"danger"}
 ];
 
 function dots(conf){
-  if(conf===null) return '<span style="color:var(--text-muted);">exacto</span>';
+  if(conf===null) return '<span style="color:var(--text-muted);">exact</span>';
   var filled = Math.round(conf/20);
   var out = '<span class="dot">';
   for(var i=0;i<5;i++){ out += '<span style="color:'+(i<filled?'var(--text-warning)':'var(--border-strong)')+';">&#9679;</span>'; }
@@ -200,15 +200,15 @@ function render(filter){
   var html = '';
   rows.forEach(function(r){
     if(filter!=='all' && r.cat!==filter) return;
-    var methodBg = r.method==='Match por llave' ? 'var(--bg-success)' : (r.method==='Similaridad' ? 'var(--bg-warning)' : 'transparent');
-    var methodColor = r.method==='Match por llave' ? 'var(--text-success)' : (r.method==='Similaridad' ? 'var(--text-warning)' : 'var(--text-muted)');
+    var methodBg = r.method==='Key match' ? 'var(--bg-success)' : (r.method==='Similarity' ? 'var(--bg-warning)' : 'transparent');
+    var methodColor = r.method==='Key match' ? 'var(--text-success)' : (r.method==='Similarity' ? 'var(--text-warning)' : 'var(--text-muted)');
     html += '<tr>';
     html += '<td><p class="cell-title">'+r.crm+'</p><p class="cell-sub">'+r.crmAddr+'</p></td>';
     html += '<td><p class="cell-title">'+r.match+'</p><p class="cell-sub">'+r.matchAddr+'</p></td>';
     html += '<td><span class="pill" style="background:'+methodBg+';color:'+methodColor+';">'+r.method+'</span></td>';
     html += '<td>'+dots(r.conf)+'</td>';
     html += '<td><span class="pill" style="background:var(--bg-'+r.statusRole+');color:var(--text-'+r.statusRole+');">'+r.status+'</span></td>';
-    html += '<td style="white-space:nowrap;"><button class="rowbtn">Aprobar</button><button class="rowbtn" aria-label="Más acciones">&#8230;</button></td>';
+    html += '<td style="white-space:nowrap;"><button class="rowbtn">Approve</button><button class="rowbtn" aria-label="More actions">&#8230;</button></td>';
     html += '</tr>';
   });
   document.getElementById('rows').innerHTML = html;
