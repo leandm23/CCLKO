@@ -1,115 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shalion ODM — CRM matching</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.47.0/iconfont/tabler-icons.min.css">
+<style>
+  :root{
+    --surface-0:#F7F7F5;
+    --surface-1:#F1EFE8;
+    --surface-2:#FFFFFF;
+    --text-primary:#1B1B18;
+    --text-secondary:#5F5E5A;
+    --text-muted:#8A8880;
+    --border:rgba(0,0,0,0.10);
+    --border-strong:rgba(0,0,0,0.20);
+    --border-accent:#378ADD;
+    --bg-accent:#E6F1FB;
+    --text-accent:#185FA5;
+    --bg-success:#EAF3DE;
+    --text-success:#3B6D11;
+    --bg-warning:#FAEEDA;
+    --text-warning:#854F0B;
+    --bg-danger:#FCEBEB;
+    --text-danger:#A32D2D;
+    --radius:8px;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --surface-0:#171613;
+      --surface-1:#221F1A;
+      --surface-2:#2A2722;
+      --text-primary:#F2F1EC;
+      --text-secondary:#B4B2A9;
+      --text-muted:#8A8880;
+      --border:rgba(255,255,255,0.12);
+      --border-strong:rgba(255,255,255,0.22);
+      --border-accent:#85B7EB;
+      --bg-accent:#0C447C;
+      --text-accent:#B5D4F4;
+      --bg-success:#27500A;
+      --text-success:#C0DD97;
+      --bg-warning:#633806;
+      --text-warning:#FAC775;
+      --bg-danger:#791F1F;
+      --text-danger:#F7C1C1;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--surface-0);
+    color:var(--text-primary);
+    font-family:var(--font-sans);
+    padding:2rem;
+  }
+  .wrap{max-width:900px;margin:0 auto;}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:1.75rem;}
+  .brand .mark{width:30px;height:30px;border-radius:7px;background:var(--text-primary);color:var(--surface-0);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;}
+  .brand .name{font-weight:600;font-size:15px;}
+  .brand .sep{color:var(--text-muted);}
+  .brand .module{font-size:13px;color:var(--text-secondary);}
 
-<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">Mockup of Shalion ODM's CRM matching screen, showing a fork between identifier-based and similarity-based matching that feeds a manual review queue.</h2>
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem;}
+  .metric{background:var(--surface-1);border-radius:var(--radius);padding:1rem;}
+  .metric p:first-child{font-size:13px;color:var(--text-secondary);margin:0 0 4px;}
+  .metric p:last-child{font-size:24px;font-weight:600;margin:0;}
 
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem;">
-  <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem;">
-    <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px;">CRM records</p>
-    <p style="font-size:24px;font-weight:500;margin:0;">1,240</p>
-  </div>
-  <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem;">
-    <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px;">Matched by key</p>
-    <p style="font-size:24px;font-weight:500;margin:0;color:var(--text-success);">812</p>
-  </div>
-  <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem;">
-    <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px;">Matched by similarity</p>
-    <p style="font-size:24px;font-weight:500;margin:0;color:var(--text-warning);">271</p>
-  </div>
-  <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem;">
-    <p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px;">Needs review</p>
-    <p style="font-size:24px;font-weight:500;margin:0;color:var(--text-warning);">157</p>
-  </div>
-</div>
+  .fork-row{display:flex;align-items:stretch;gap:8px;margin-bottom:1rem;}
+  .fork-card{flex:1;border-radius:var(--radius);padding:0.85rem 1rem;}
+  .fork-arrow{display:flex;align-items:center;color:var(--text-muted);}
+  .fork-card .head{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+  .fork-card .head span{font-size:14px;font-weight:600;}
+  .fork-card p.sub{font-size:12px;margin:0;}
 
-<div style="display:flex;align-items:stretch;gap:8px;margin-bottom:1.5rem;">
-  <div style="flex:1;background:var(--bg-success);border-radius:var(--radius);padding:0.85rem 1rem;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-      <i class="ti ti-key" style="font-size:18px;color:var(--text-success);" aria-hidden="true"></i>
-      <span style="font-size:14px;font-weight:500;color:var(--text-success);">Identifier found</span>
+  .steps{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);}
+  .step{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-muted);}
+  .step.active{font-weight:600;padding:4px 10px;border:1px solid var(--border-accent);border-radius:999px;color:var(--text-accent);}
+  .sepdash{color:var(--text-muted);font-size:13px;align-self:center;}
+
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;}
+  .filt{font-size:13px;padding:5px 12px;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--text-secondary);cursor:pointer;font-family:inherit;}
+  .filt.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent);}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  thead tr{background:var(--surface-1);}
+  th{text-align:left;padding:10px 12px;font-weight:600;color:var(--text-secondary);}
+  td{padding:10px 12px;vertical-align:top;}
+  tbody tr{border-top:1px solid var(--border);}
+  .table-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+  .cell-title{margin:0;font-weight:600;}
+  .cell-sub{margin:0;color:var(--text-secondary);font-size:12px;}
+  .pill{padding:2px 8px;border-radius:999px;font-size:12px;font-weight:500;}
+  .rowbtn{border:1px solid var(--border-strong);border-radius:var(--radius);background:transparent;color:var(--text-accent);cursor:pointer;font-size:12px;padding:4px 10px;margin-right:4px;font-family:inherit;}
+  .rowbtn:hover{background:var(--surface-1);}
+  .dot{letter-spacing:1px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <div class="mark">S</div>
+    <span class="name">Shalion</span>
+    <span class="sep">/</span>
+    <span class="module">ODM — CRM matching</span>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><p>Registros CRM</p><p>1,240</p></div>
+    <div class="metric"><p>Match por llave</p><p style="color:var(--text-success);">812</p></div>
+    <div class="metric"><p>Match por similaridad</p><p style="color:var(--text-warning);">271</p></div>
+    <div class="metric"><p>Necesitan revisión</p><p style="color:var(--text-warning);">157</p></div>
+  </div>
+
+  <div class="fork-row">
+    <div class="fork-card" style="background:var(--bg-success);">
+      <div class="head"><i class="ti ti-key" style="font-size:18px;color:var(--text-success);"></i><span style="color:var(--text-success);">Identificador encontrado</span></div>
+      <p class="sub" style="color:var(--text-success);">Store ID, POS code, GLN</p>
     </div>
-    <p style="font-size:12px;color:var(--text-success);margin:0;">Store ID, POS code, GLN</p>
-  </div>
-  <div style="display:flex;align-items:center;color:var(--text-muted);">
-    <i class="ti ti-arrow-right" style="font-size:18px;" aria-hidden="true"></i>
-  </div>
-  <div style="flex:1;background:var(--bg-success);border-radius:var(--radius);padding:0.85rem 1rem;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-      <i class="ti ti-check" style="font-size:18px;color:var(--text-success);" aria-hidden="true"></i>
-      <span style="font-size:14px;font-weight:500;color:var(--text-success);">Deterministic match</span>
+    <div class="fork-arrow"><i class="ti ti-arrow-right" style="font-size:18px;"></i></div>
+    <div class="fork-card" style="background:var(--bg-success);">
+      <div class="head"><i class="ti ti-check" style="font-size:18px;color:var(--text-success);"></i><span style="color:var(--text-success);">Match determinístico</span></div>
+      <p class="sub" style="color:var(--text-success);">Auto-etiquetado, confianza alta</p>
     </div>
-    <p style="font-size:12px;color:var(--text-success);margin:0;">Auto-tagged, high trust</p>
   </div>
-</div>
 
-<div style="display:flex;align-items:stretch;gap:8px;margin-bottom:1.5rem;">
-  <div style="flex:1;background:var(--bg-warning);border-radius:var(--radius);padding:0.85rem 1rem;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-      <i class="ti ti-help-hexagon" style="font-size:18px;color:var(--text-warning);" aria-hidden="true"></i>
-      <span style="font-size:14px;font-weight:500;color:var(--text-warning);">No reliable key</span>
+  <div class="fork-row">
+    <div class="fork-card" style="background:var(--bg-warning);">
+      <div class="head"><i class="ti ti-help-hexagon" style="font-size:18px;color:var(--text-warning);"></i><span style="color:var(--text-warning);">Sin llave confiable</span></div>
+      <p class="sub" style="color:var(--text-warning);">Nombre, dirección, geo, teléfono</p>
     </div>
-    <p style="font-size:12px;color:var(--text-warning);margin:0;">Name, address, geo, phone</p>
-  </div>
-  <div style="display:flex;align-items:center;color:var(--text-muted);">
-    <i class="ti ti-arrow-right" style="font-size:18px;" aria-hidden="true"></i>
-  </div>
-  <div style="flex:1;background:var(--bg-warning);border-radius:var(--radius);padding:0.85rem 1rem;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-      <i class="ti ti-adjustments" style="font-size:18px;color:var(--text-warning);" aria-hidden="true"></i>
-      <span style="font-size:14px;font-weight:500;color:var(--text-warning);">Similarity model</span>
+    <div class="fork-arrow"><i class="ti ti-arrow-right" style="font-size:18px;"></i></div>
+    <div class="fork-card" style="background:var(--bg-warning);">
+      <div class="head"><i class="ti ti-adjustments" style="font-size:18px;color:var(--text-warning);"></i><span style="color:var(--text-warning);">Modelo de similaridad</span></div>
+      <p class="sub" style="color:var(--text-warning);">Con score, en cola de revisión</p>
     </div>
-    <p style="font-size:12px;color:var(--text-warning);margin:0;">Scored, queued for review</p>
   </div>
-</div>
 
-<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border);">
-  <span style="display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-muted);"><i class="ti ti-upload" style="font-size:15px;" aria-hidden="true"></i>Upload CRM</span>
-  <i class="ti ti-minus" style="font-size:13px;color:var(--text-muted);align-self:center;" aria-hidden="true"></i>
-  <span style="display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-muted);"><i class="ti ti-check" style="font-size:15px;" aria-hidden="true"></i>Map fields</span>
-  <i class="ti ti-minus" style="font-size:13px;color:var(--text-muted);align-self:center;" aria-hidden="true"></i>
-  <span style="display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-muted);"><i class="ti ti-check" style="font-size:15px;" aria-hidden="true"></i>Detect identifiers</span>
-  <i class="ti ti-minus" style="font-size:13px;color:var(--text-muted);align-self:center;" aria-hidden="true"></i>
-  <span style="display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-muted);"><i class="ti ti-check" style="font-size:15px;" aria-hidden="true"></i>Match</span>
-  <i class="ti ti-minus" style="font-size:13px;color:var(--text-muted);align-self:center;" aria-hidden="true"></i>
-  <span style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:500;padding:4px 10px;border:0.5px solid var(--border-accent);border-radius:999px;color:var(--text-accent);"><i class="ti ti-list-check" style="font-size:15px;" aria-hidden="true"></i>Review</span>
-</div>
+  <div class="steps">
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Subir CRM</span>
+    <span class="sepdash">—</span>
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Mapear campos</span>
+    <span class="sepdash">—</span>
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Detectar identificadores</span>
+    <span class="sepdash">—</span>
+    <span class="step"><i class="ti ti-check" style="font-size:15px;"></i>Match</span>
+    <span class="sepdash">—</span>
+    <span class="step active"><i class="ti ti-list-check" style="font-size:15px;"></i>Revisión</span>
+  </div>
 
-<div id="filters" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;">
-  <button data-cat="all" class="filt active" style="font-size:13px;padding:5px 12px;">All</button>
-  <button data-cat="key" class="filt" style="font-size:13px;padding:5px 12px;">Key match</button>
-  <button data-cat="similarity" class="filt" style="font-size:13px;padding:5px 12px;">Similarity match</button>
-  <button data-cat="new" class="filt" style="font-size:13px;padding:5px 12px;">New outlet</button>
-  <button data-cat="declined" class="filt" style="font-size:13px;padding:5px 12px;">Declined</button>
-</div>
+  <div class="filters" id="filters">
+    <button data-cat="all" class="filt active">Todos</button>
+    <button data-cat="key" class="filt">Match por llave</button>
+    <button data-cat="similarity" class="filt">Match por similaridad</button>
+    <button data-cat="new" class="filt">Nuevo outlet</button>
+    <button data-cat="declined" class="filt">Descartado</button>
+  </div>
 
-<div style="border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;">
-<table style="width:100%;border-collapse:collapse;font-size:13px;">
-<thead>
-<tr style="background:var(--surface-1);">
-<th style="text-align:left;padding:10px 12px;font-weight:500;color:var(--text-secondary);">CRM record</th>
-<th style="text-align:left;padding:10px 12px;font-weight:500;color:var(--text-secondary);">Best match found</th>
-<th style="text-align:left;padding:10px 12px;font-weight:500;color:var(--text-secondary);">Method</th>
-<th style="text-align:left;padding:10px 12px;font-weight:500;color:var(--text-secondary);">Confidence</th>
-<th style="text-align:left;padding:10px 12px;font-weight:500;color:var(--text-secondary);">Status</th>
-<th style="text-align:left;padding:10px 12px;font-weight:500;color:var(--text-secondary);">Actions</th>
-</tr>
-</thead>
-<tbody id="rows"></tbody>
-</table>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Registro CRM</th>
+          <th>Mejor match encontrado</th>
+          <th>Método</th>
+          <th>Confianza</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
 </div>
 
 <script>
 var rows = [
-  {crm:"Golden Wok Kitchen",crmAddr:"Coolsingel 40, Rotterdam · POS-88213",match:"Golden Wok Kitchen Rotterdam",matchAddr:"Coolsingel 40, Rotterdam",cat:"key",method:"Key match",conf:null,status:"Auto-matched",statusRole:"success"},
-  {crm:"Casa Bella Trattoria",crmAddr:"Oudegracht 112, Utrecht",match:"Bella's Trattoria Centrum",matchAddr:"Oudegracht 108, Utrecht",cat:"similarity",method:"Similarity",conf:71,status:"Needs review",statusRole:"warning"},
-  {crm:"Burger Union #204",crmAddr:"Damrak 22, Amsterdam",match:"Burger Union Damrak",matchAddr:"Damrak 24, Amsterdam",cat:"similarity",method:"Similarity",conf:54,status:"Needs review",statusRole:"warning"},
-  {crm:"Ocean Grill Bar",crmAddr:"Nieuwendijk 90, Amsterdam",match:"Ocean Grill and Bar",matchAddr:"Nieuwendijk 88, Amsterdam",cat:"similarity",method:"Similarity",conf:88,status:"Matched",statusRole:"success"},
-  {crm:"Spice Route Express",crmAddr:"Grote Markt 5, The Hague",match:"No candidate above threshold",matchAddr:"—",cat:"new",method:"—",conf:null,status:"New outlet",statusRole:"accent"},
-  {crm:"Corner Deli 12",crmAddr:"Leidsestraat 30, Amsterdam",match:"Corner Bakery Leidseplein",matchAddr:"Leidseplein 2, Amsterdam",cat:"declined",method:"Similarity",conf:33,status:"Declined",statusRole:"danger"}
+  {crm:"Golden Wok Kitchen",crmAddr:"Coolsingel 40, Rotterdam · POS-88213",match:"Golden Wok Kitchen Rotterdam",matchAddr:"Coolsingel 40, Rotterdam",cat:"key",method:"Match por llave",conf:null,status:"Auto-matched",statusRole:"success"},
+  {crm:"Casa Bella Trattoria",crmAddr:"Oudegracht 112, Utrecht",match:"Bella's Trattoria Centrum",matchAddr:"Oudegracht 108, Utrecht",cat:"similarity",method:"Similaridad",conf:71,status:"Necesita revisión",statusRole:"warning"},
+  {crm:"Burger Union #204",crmAddr:"Damrak 22, Amsterdam",match:"Burger Union Damrak",matchAddr:"Damrak 24, Amsterdam",cat:"similarity",method:"Similaridad",conf:54,status:"Necesita revisión",statusRole:"warning"},
+  {crm:"Ocean Grill Bar",crmAddr:"Nieuwendijk 90, Amsterdam",match:"Ocean Grill and Bar",matchAddr:"Nieuwendijk 88, Amsterdam",cat:"similarity",method:"Similaridad",conf:88,status:"Matched",statusRole:"success"},
+  {crm:"Spice Route Express",crmAddr:"Grote Markt 5, The Hague",match:"Sin candidato sobre el umbral",matchAddr:"—",cat:"new",method:"—",conf:null,status:"Nuevo outlet",statusRole:"accent"},
+  {crm:"Corner Deli 12",crmAddr:"Leidsestraat 30, Amsterdam",match:"Corner Bakery Leidseplein",matchAddr:"Leidseplein 2, Amsterdam",cat:"declined",method:"Similaridad",conf:33,status:"Descartado",statusRole:"danger"}
 ];
 
 function dots(conf){
-  if(conf===null) return '<span style="color:var(--text-muted);">exact</span>';
+  if(conf===null) return '<span style="color:var(--text-muted);">exacto</span>';
   var filled = Math.round(conf/20);
-  var out = '<span style="letter-spacing:1px;">';
+  var out = '<span class="dot">';
   for(var i=0;i<5;i++){ out += '<span style="color:'+(i<filled?'var(--text-warning)':'var(--border-strong)')+';">&#9679;</span>'; }
   out += '</span> <span style="color:var(--text-secondary);">'+conf+'</span>';
   return out;
@@ -119,15 +200,15 @@ function render(filter){
   var html = '';
   rows.forEach(function(r){
     if(filter!=='all' && r.cat!==filter) return;
-    var methodBg = r.method==='Key match' ? 'var(--bg-success)' : (r.method==='Similarity' ? 'var(--bg-warning)' : 'transparent');
-    var methodColor = r.method==='Key match' ? 'var(--text-success)' : (r.method==='Similarity' ? 'var(--text-warning)' : 'var(--text-muted)');
-    html += '<tr style="border-top:0.5px solid var(--border);">';
-    html += '<td style="padding:10px 12px;"><p style="margin:0;font-weight:500;">'+r.crm+'</p><p style="margin:0;color:var(--text-secondary);font-size:12px;">'+r.crmAddr+'</p></td>';
-    html += '<td style="padding:10px 12px;"><p style="margin:0;font-weight:500;">'+r.match+'</p><p style="margin:0;color:var(--text-secondary);font-size:12px;">'+r.matchAddr+'</p></td>';
-    html += '<td style="padding:10px 12px;"><span style="background:'+methodBg+';color:'+methodColor+';padding:2px 8px;border-radius:999px;font-size:12px;">'+r.method+'</span></td>';
-    html += '<td style="padding:10px 12px;">'+dots(r.conf)+'</td>';
-    html += '<td style="padding:10px 12px;"><span style="background:var(--bg-'+r.statusRole+');color:var(--text-'+r.statusRole+');padding:2px 8px;border-radius:999px;font-size:12px;">'+r.status+'</span></td>';
-    html += '<td style="padding:10px 12px;white-space:nowrap;"><button class="rowbtn" style="font-size:12px;padding:4px 10px;margin-right:4px;">Approve</button><button class="rowbtn" style="font-size:12px;padding:4px 8px;" aria-label="More actions">&#8230;</button></td>';
+    var methodBg = r.method==='Match por llave' ? 'var(--bg-success)' : (r.method==='Similaridad' ? 'var(--bg-warning)' : 'transparent');
+    var methodColor = r.method==='Match por llave' ? 'var(--text-success)' : (r.method==='Similaridad' ? 'var(--text-warning)' : 'var(--text-muted)');
+    html += '<tr>';
+    html += '<td><p class="cell-title">'+r.crm+'</p><p class="cell-sub">'+r.crmAddr+'</p></td>';
+    html += '<td><p class="cell-title">'+r.match+'</p><p class="cell-sub">'+r.matchAddr+'</p></td>';
+    html += '<td><span class="pill" style="background:'+methodBg+';color:'+methodColor+';">'+r.method+'</span></td>';
+    html += '<td>'+dots(r.conf)+'</td>';
+    html += '<td><span class="pill" style="background:var(--bg-'+r.statusRole+');color:var(--text-'+r.statusRole+');">'+r.status+'</span></td>';
+    html += '<td style="white-space:nowrap;"><button class="rowbtn">Aprobar</button><button class="rowbtn" aria-label="Más acciones">&#8230;</button></td>';
     html += '</tr>';
   });
   document.getElementById('rows').innerHTML = html;
@@ -135,30 +216,13 @@ function render(filter){
 
 document.querySelectorAll('.filt').forEach(function(b){
   b.addEventListener('click',function(){
-    document.querySelectorAll('.filt').forEach(function(x){x.classList.remove('active');x.style.background='transparent';x.style.color='var(--text-secondary)';x.style.borderColor='var(--border)';});
+    document.querySelectorAll('.filt').forEach(function(x){x.classList.remove('active');});
     b.classList.add('active');
-    b.style.background='var(--bg-accent)';
-    b.style.color='var(--text-accent)';
-    b.style.borderColor='var(--border-accent)';
     render(b.getAttribute('data-cat'));
   });
 });
 
-document.querySelectorAll('.filt').forEach(function(b){
-  b.style.border='0.5px solid var(--border)';
-  b.style.borderRadius='999px';
-  b.style.background='transparent';
-  b.style.color='var(--text-secondary)';
-  b.style.cursor='pointer';
-});
-document.querySelector('.filt.active').style.background='var(--bg-accent)';
-document.querySelector('.filt.active').style.color='var(--text-accent)';
-document.querySelector('.filt.active').style.borderColor='var(--border-accent)';
-
-document.querySelectorAll('.rowbtn').forEach ? null : null;
 render('all');
-
-var style = document.createElement('style');
-style.textContent = '.rowbtn{border:0.5px solid var(--border-strong);border-radius:var(--radius);background:transparent;color:var(--text-accent);cursor:pointer;} .rowbtn:hover{background:var(--surface-1);}';
-document.head.appendChild(style);
 </script>
+</body>
+</html>
